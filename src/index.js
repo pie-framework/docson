@@ -28,6 +28,9 @@ import URI from 'urijs';
 import traverse from 'traverse';
 
 const debug = require('debug')('docson');
+const boxHtml = require('./boxHtml');
+
+const signatureHtml = require('./signatureHtml');
 
 const highlight = false;
 
@@ -371,17 +374,13 @@ const highlight = false;
     });
 
     function init() {
-        $.get(docson.templateBaseUrl+"/box.html").done(function(content) {
-            source = content
-            boxTemplate = Handlebars.compile(source);
+      source = boxHtml;
+      boxTemplate = Handlebars.compile(source);
 
-            $.get(docson.templateBaseUrl+"/signature.html").done(function(content) {
-                source = content
-                signatureTemplate = Handlebars.compile(source);
+      source = signatureHtml;
+      signatureTemplate = Handlebars.compile(source);
 
-                resolve_ready();
-            });
-        });
+      resolve_ready();
     };
 
     docson.doc = function(element, schema, ref, baseUrl) {
